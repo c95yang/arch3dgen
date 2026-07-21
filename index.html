@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Architectural-Compliant 3D Building Generation with Compositional Geometry from Single-Image</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Georgia, "Times New Roman", serif; color: #1c1e21; background: #ffffff; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 48px 24px 80px; }
+  h1 { font-size: 30px; line-height: 1.35; text-align: center; margin: 0 0 10px; }
+  .anon { text-align: center; color: #667; font-family: system-ui, sans-serif; font-size: 14px; margin-bottom: 18px; }
+  .badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 22px 0 34px; font-family: system-ui, sans-serif; }
+  .badges a, .badges span { padding: 8px 18px; border-radius: 999px; font-size: 14.5px; text-decoration: none;
+        border: 1.5px solid #223; color: #223; }
+  .badges .soon { opacity: .45; border-style: dashed; }
+  img { width: 100%; border-radius: 6px; }
+  figure { margin: 26px 0; }
+  figcaption { font-family: system-ui, sans-serif; font-size: 13px; color: #667; margin-top: 8px; text-align: center; }
+  h2 { font-size: 21px; margin: 40px 0 12px; border-bottom: 1px solid #ddd; padding-bottom: 6px; }
+  p { font-size: 16.5px; line-height: 1.65; text-align: justify; }
+  ul { font-size: 16.5px; line-height: 1.65; }
+  pre { background: #f5f6f8; border: 1px solid #e2e4e8; border-radius: 6px; padding: 14px 16px;
+        font-size: 13px; overflow-x: auto; font-family: ui-monospace, monospace; }
+  footer { margin-top: 60px; text-align: center; font-family: system-ui, sans-serif; font-size: 13px; color: #889; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Architectural-Compliant 3D Building Generation with Compositional Geometry from Single-Image</h1>
+  <div class="anon">Anonymous authors &middot; paper under review</div>
+
+  <div class="badges">
+    <span class="soon">Paper (coming soon)</span>
+    <span class="soon">Code (coming soon)</span>
+    <span class="soon">Data (coming soon)</span>
+  </div>
+
+  <figure>
+    <img src="assets/task.jpg" alt="Task overview: from a single exterior photograph to a complete multi-storey building with interiors">
+    <figcaption>From a single exterior photograph to a complete multi-storey building &mdash; envelope, roof,
+    and unseen interior layouts &mdash; with every architectural element as a separable, labeled mesh component.</figcaption>
+  </figure>
+
+  <h2>Abstract</h2>
+  <p>We present an agentic pipeline that generates a complete multi-storey residential building —
+  envelope, roof, and unseen interior layouts — from a single exterior photograph, with every
+  architectural element emitted as a cleanly separable, semantically labeled mesh component.
+  Existing approaches fall short of this goal: procedural systems demand manual encoding of every
+  design rule and produce over-simplified interiors; learned generative models offer no validity
+  guarantees; and the multi-floor setting, where staircases and structural walls couple floors
+  vertically, remains largely unexplored.</p>
+  <p>Our key insight is twofold. First, architectural knowledge is native to 2D: we adopt the vector
+  floor plan as the intermediate representation in which design rules can be stated, checked, and
+  repaired, and from which 3D geometry follows procedurally, making the output decomposable by
+  construction. Second, we organize heterogeneous architectural constraints — from verifiable
+  geometric predicates to fuzzy design heuristics — into a four-level hierarchy of atomic
+  natural-language rules that serve as a single source of truth for both generation and
+  verification. A Generate&ndash;Judge&ndash;Repair&ndash;Fix loop enforces these rules at every pipeline stage,
+  combining programmatic validators, deterministic repairs, and vision-language judging.</p>
+
+  <figure>
+    <img src="assets/pipeline.jpg" alt="Pipeline overview">
+    <figcaption>Pipeline: photo-locked envelope recovery, rule-governed per-floor interior synthesis with
+    stair-consistent vertical coupling, and procedural extrusion into a component-wise decomposable 3D mesh.</figcaption>
+  </figure>
+
+  <h2>Highlights</h2>
+  <ul>
+    <li><b>Single photo in, full building out</b> — multi-storey envelope, roof, and interiors, all floors stair-consistent.</li>
+    <li><b>Compositional geometry</b> — walls, openings, stairs, roof, and room volumes are separate, semantically labeled mesh components.</li>
+    <li><b>81 atomic architectural rules</b> spanning encoding validity, geometric predicates, measured thresholds, and semantic design heuristics — one natural-language statement each, used identically for generation, judging, and repair.</li>
+    <li><b>Generate&ndash;Judge&ndash;Repair&ndash;Fix</b> — programmatic validators and VLM judges gate every stage; violations are repaired deterministically or fixed by synthesis.</li>
+    <li>Evaluated against procedural (Infinigen-Indoors), learned 2D (GSDiff), and direct LLM baselines, plus an architect / non-architect human study.</li>
+  </ul>
+
+  <h2>BibTeX</h2>
+  <pre>@article{anonymous2026architectural,
+  title   = {Architectural-Compliant 3D Building Generation with Compositional Geometry from Single-Image},
+  author  = {Anonymous},
+  journal = {Under review},
+  year    = {2026}
+}</pre>
+
+  <footer>Project page &mdash; contents will be updated upon publication.</footer>
+</div>
+</body>
+</html>
