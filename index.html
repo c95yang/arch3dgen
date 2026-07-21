@@ -5,86 +5,192 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Architectural-Compliant 3D Building Generation with Compositional Geometry from Single-Image</title>
 <style>
-  :root { color-scheme: light; }
+  :root {
+    --ink: #17202b; --muted: #5b6676; --line: #e3e7ee;
+    --accent: #2c5fd8; --accent-2: #1c8a5e;
+    --serif: "Charter", "Iowan Old Style", Georgia, "Times New Roman", serif;
+    --sans: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: Georgia, "Times New Roman", serif; color: #1c1e21; background: #ffffff; }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 48px 24px 80px; }
-  h1 { font-size: 30px; line-height: 1.35; text-align: center; margin: 0 0 10px; }
-  .anon { text-align: center; color: #667; font-family: system-ui, sans-serif; font-size: 14px; margin-bottom: 18px; }
-  .badges { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 22px 0 34px; font-family: system-ui, sans-serif; }
-  .badges a, .badges span { padding: 8px 18px; border-radius: 999px; font-size: 14.5px; text-decoration: none;
-        border: 1.5px solid #223; color: #223; }
-  .badges .soon { opacity: .45; border-style: dashed; }
-  img { width: 100%; border-radius: 6px; }
-  figure { margin: 26px 0; }
-  figcaption { font-family: system-ui, sans-serif; font-size: 13px; color: #667; margin-top: 8px; text-align: center; }
-  h2 { font-size: 21px; margin: 40px 0 12px; border-bottom: 1px solid #ddd; padding-bottom: 6px; }
-  p { font-size: 16.5px; line-height: 1.65; text-align: justify; }
-  ul { font-size: 16.5px; line-height: 1.65; }
-  pre { background: #f5f6f8; border: 1px solid #e2e4e8; border-radius: 6px; padding: 14px 16px;
-        font-size: 13px; overflow-x: auto; font-family: ui-monospace, monospace; }
-  footer { margin-top: 60px; text-align: center; font-family: system-ui, sans-serif; font-size: 13px; color: #889; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: var(--serif); color: var(--ink); background: #fbfbfd; }
+
+  /* ---------- hero: blueprint theme ---------- */
+  .hero {
+    position: relative; color: #eef2fa; overflow: hidden;
+    background:
+      repeating-linear-gradient(0deg,  rgba(255,255,255,.05) 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(0deg,  rgba(255,255,255,.025) 0 1px, transparent 1px 12px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0 1px, transparent 1px 12px),
+      radial-gradient(120% 140% at 20% -20%, #274b9f 0%, #16295c 45%, #0d1733 100%);
+    padding: 84px 24px 64px;
+  }
+  .hero .inner { max-width: 940px; margin: 0 auto; text-align: center; }
+  .kicker { font-family: var(--sans); font-size: 13px; letter-spacing: .22em; text-transform: uppercase;
+            color: #9db8f5; margin-bottom: 22px; }
+  h1 { font-size: clamp(26px, 4vw, 40px); line-height: 1.28; margin: 0 auto 14px; max-width: 880px;
+       font-weight: 600; letter-spacing: .01em; }
+  .authors { font-family: var(--sans); color: #b9c6e4; font-size: 15px; margin-bottom: 34px; }
+  .badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; font-family: var(--sans); }
+  .badges a, .badges span {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 22px; border-radius: 999px; font-size: 14.5px; text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,.55); color: #eef2fa; transition: all .15s ease;
+  }
+  .badges a:hover { background: rgba(255,255,255,.12); transform: translateY(-1px); }
+  .badges .soon { opacity: .45; border-style: dashed; cursor: default; }
+  .badges .cta { background: var(--accent-2); border-color: var(--accent-2); font-weight: 600; }
+  .badges .cta:hover { background: #22a06f; border-color: #22a06f; }
+
+  /* teaser overlapping the hero bottom */
+  .teaser { max-width: 940px; margin: -34px auto 0; padding: 0 24px; position: relative; z-index: 2; }
+  .teaser .card { margin-top: 60px; }
+
+  /* ---------- body ---------- */
+  .wrap { max-width: 940px; margin: 0 auto; padding: 24px 24px 90px; }
+  section { margin-top: 58px; }
+  h2 { font-size: 24px; margin: 0 0 18px; font-weight: 600; }
+  h2::after { content: ""; display: block; width: 56px; height: 3px; margin-top: 10px;
+              background: linear-gradient(90deg, var(--accent), transparent); border-radius: 2px; }
+  p { font-size: 17px; line-height: 1.72; color: #2a3442; margin: 0 0 16px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px;
+          box-shadow: 0 10px 30px rgba(23,32,43,.07); padding: 14px; }
+  .card img { width: 100%; display: block; border-radius: 8px; }
+  figcaption { font-family: var(--sans); font-size: 13.5px; color: var(--muted);
+               margin: 12px 6px 4px; text-align: center; line-height: 1.5; }
+  figure { margin: 26px 0 0; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+
+  ul.hl { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  ul.hl li { background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--accent);
+             border-radius: 10px; padding: 14px 18px; font-size: 16px; line-height: 1.6; color: #2a3442; }
+  ul.hl b { color: var(--ink); }
+
+  .study {
+    margin-top: 64px; border-radius: 16px; padding: 38px 34px; color: #f2f7f3; text-align: center;
+    background:
+      repeating-linear-gradient(0deg,  rgba(255,255,255,.04) 0 1px, transparent 1px 36px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 1px, transparent 1px 36px),
+      linear-gradient(135deg, #14563b 0%, #0e3d2a 100%);
+  }
+  .study h2 { color: #fff; }
+  .study h2::after { background: linear-gradient(90deg, #7fd4ab, transparent); }
+  .study p { color: #cfe7d9; }
+  .study a.btn { display: inline-block; margin-top: 10px; font-family: var(--sans); font-weight: 600;
+      background: #fff; color: #14563b; padding: 13px 34px; border-radius: 999px; text-decoration: none;
+      font-size: 16px; transition: transform .15s ease; }
+  .study a.btn:hover { transform: translateY(-2px); }
+  .study .fine { font-size: 13px; color: #9cc4ad; margin-top: 14px; }
+
+  pre { background: #10192b; color: #d6e1f5; border-radius: 12px; padding: 20px 22px;
+        font-size: 13px; overflow-x: auto; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+        line-height: 1.6; }
+  footer { margin-top: 70px; text-align: center; font-family: var(--sans); font-size: 13px; color: #98a2b3; }
 </style>
 </head>
 <body>
+
+<div class="hero">
+  <div class="inner">
+    <div class="kicker">Research Project</div>
+    <h1>Architectural-Compliant 3D Building Generation with Compositional Geometry from Single-Image</h1>
+    <div class="authors">Anonymous authors &middot; paper under review</div>
+    <div class="badges">
+      <span class="soon">&#128196; Paper (soon)</span>
+      <span class="soon">&#128187; Code (soon)</span>
+      <span class="soon">&#128230; Data (soon)</span>
+      <a class="cta" href="http://92.5.116.103/" target="_blank" rel="noopener">&#9998; Participate in our Human Study</a>
+    </div>
+  </div>
+</div>
+
+<div class="teaser">
+  <figure class="card" style="margin-top:-10px">
+    <img src="assets/task.jpg" alt="Task: single exterior photograph to complete multi-storey building">
+    <figcaption>One exterior photograph in &mdash; a complete multi-storey building out: envelope, roof, and
+    unseen interior layouts, every architectural element a separable, semantically labeled mesh component.</figcaption>
+  </figure>
+</div>
+
 <div class="wrap">
 
-  <h1>Architectural-Compliant 3D Building Generation with Compositional Geometry from Single-Image</h1>
-  <div class="anon">Anonymous authors &middot; paper under review</div>
+  <section>
+    <h2>Abstract</h2>
+    <p>We present an agentic pipeline that generates a complete multi-storey residential building —
+    envelope, roof, and unseen interior layouts — from a single exterior photograph, with every
+    architectural element emitted as a cleanly separable, semantically labeled mesh component.
+    Existing approaches fall short of this goal: procedural systems demand manual encoding of every
+    design rule and produce over-simplified interiors; learned generative models offer no validity
+    guarantees; and the multi-floor setting, where staircases and structural walls couple floors
+    vertically, remains largely unexplored.</p>
+    <p>Our key insight is twofold. First, architectural knowledge is native to 2D: we adopt the
+    vector floor plan as the intermediate representation in which design rules can be stated,
+    checked, and repaired, and from which 3D geometry follows procedurally, making the output
+    decomposable by construction. Second, we organize heterogeneous architectural constraints —
+    from verifiable geometric predicates to fuzzy design heuristics — into a four-level hierarchy
+    of atomic natural-language rules that serve as a single source of truth for both generation and
+    verification. A Generate&ndash;Judge&ndash;Repair&ndash;Fix loop enforces these rules at every
+    pipeline stage, combining programmatic validators, deterministic repairs, and vision-language judging.</p>
+  </section>
 
-  <div class="badges">
-    <span class="soon">Paper (coming soon)</span>
-    <span class="soon">Code (coming soon)</span>
-    <span class="soon">Data (coming soon)</span>
+  <section>
+    <h2>Method</h2>
+    <figure class="card">
+      <img src="assets/pipeline.jpg" alt="Pipeline overview">
+      <figcaption>Photo-locked envelope recovery &rarr; rule-governed per-floor interior synthesis with
+      stair-consistent vertical coupling &rarr; procedural extrusion into a decomposable 3D mesh.</figcaption>
+    </figure>
+    <figure class="card">
+      <img src="assets/design_rules.jpg" alt="Design rule hierarchy">
+      <figcaption>81 atomic architectural rules in a four-level hierarchy &mdash; encoding validity, geometric
+      predicates, measured thresholds, and semantic design heuristics &mdash; each a single natural-language
+      statement shared by generation, judging, and repair.</figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>Highlights</h2>
+    <ul class="hl">
+      <li><b>Single photo in, full building out</b> &mdash; multi-storey envelope, roof, and interiors, all floors stair-consistent.</li>
+      <li><b>Compositional geometry</b> &mdash; walls, openings, stairs, roof, and room volumes as separate, labeled mesh components.</li>
+      <li><b>Rules as a single source of truth</b> &mdash; the same natural-language rule drives generation, verification, and repair.</li>
+      <li><b>Generate&ndash;Judge&ndash;Repair&ndash;Fix</b> &mdash; programmatic validators and VLM judges gate every stage of the pipeline.</li>
+      <li><b>Comprehensive evaluation</b> &mdash; procedural (Infinigen-Indoors), learned 2D (GSDiff), and direct LLM baselines, plus an architect / non-architect human study.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Results</h2>
+    <figure class="card">
+      <img src="assets/ablation.jpg" alt="Ablation results">
+      <figcaption>Judge, repair, and fix stages each contribute: the full loop delivers clean rule-compliant
+      buildings where generation-only and partial variants leave violations behind.</figcaption>
+    </figure>
+  </section>
+
+  <div class="study">
+    <h2>Help our research &mdash; join the human study</h2>
+    <p>Compare pairs of AI-generated house designs (floor plans and interactive 3D models) and pick
+    the better one. Anonymous, about 15 minutes, desktop browser recommended.</p>
+    <a class="btn" href="http://92.5.116.103/" target="_blank" rel="noopener">Start the study &rarr;</a>
+    <div class="fine">Both architects and non-architects are welcome.</div>
   </div>
 
-  <figure>
-    <img src="assets/task.jpg" alt="Task overview: from a single exterior photograph to a complete multi-storey building with interiors">
-    <figcaption>From a single exterior photograph to a complete multi-storey building &mdash; envelope, roof,
-    and unseen interior layouts &mdash; with every architectural element as a separable, labeled mesh component.</figcaption>
-  </figure>
-
-  <h2>Abstract</h2>
-  <p>We present an agentic pipeline that generates a complete multi-storey residential building —
-  envelope, roof, and unseen interior layouts — from a single exterior photograph, with every
-  architectural element emitted as a cleanly separable, semantically labeled mesh component.
-  Existing approaches fall short of this goal: procedural systems demand manual encoding of every
-  design rule and produce over-simplified interiors; learned generative models offer no validity
-  guarantees; and the multi-floor setting, where staircases and structural walls couple floors
-  vertically, remains largely unexplored.</p>
-  <p>Our key insight is twofold. First, architectural knowledge is native to 2D: we adopt the vector
-  floor plan as the intermediate representation in which design rules can be stated, checked, and
-  repaired, and from which 3D geometry follows procedurally, making the output decomposable by
-  construction. Second, we organize heterogeneous architectural constraints — from verifiable
-  geometric predicates to fuzzy design heuristics — into a four-level hierarchy of atomic
-  natural-language rules that serve as a single source of truth for both generation and
-  verification. A Generate&ndash;Judge&ndash;Repair&ndash;Fix loop enforces these rules at every pipeline stage,
-  combining programmatic validators, deterministic repairs, and vision-language judging.</p>
-
-  <figure>
-    <img src="assets/pipeline.jpg" alt="Pipeline overview">
-    <figcaption>Pipeline: photo-locked envelope recovery, rule-governed per-floor interior synthesis with
-    stair-consistent vertical coupling, and procedural extrusion into a component-wise decomposable 3D mesh.</figcaption>
-  </figure>
-
-  <h2>Highlights</h2>
-  <ul>
-    <li><b>Single photo in, full building out</b> — multi-storey envelope, roof, and interiors, all floors stair-consistent.</li>
-    <li><b>Compositional geometry</b> — walls, openings, stairs, roof, and room volumes are separate, semantically labeled mesh components.</li>
-    <li><b>81 atomic architectural rules</b> spanning encoding validity, geometric predicates, measured thresholds, and semantic design heuristics — one natural-language statement each, used identically for generation, judging, and repair.</li>
-    <li><b>Generate&ndash;Judge&ndash;Repair&ndash;Fix</b> — programmatic validators and VLM judges gate every stage; violations are repaired deterministically or fixed by synthesis.</li>
-    <li>Evaluated against procedural (Infinigen-Indoors), learned 2D (GSDiff), and direct LLM baselines, plus an architect / non-architect human study.</li>
-  </ul>
-
-  <h2>BibTeX</h2>
-  <pre>@article{anonymous2026architectural,
+  <section>
+    <h2>BibTeX</h2>
+    <pre>@article{anonymous2026architectural,
   title   = {Architectural-Compliant 3D Building Generation with Compositional Geometry from Single-Image},
   author  = {Anonymous},
   journal = {Under review},
   year    = {2026}
 }</pre>
+  </section>
 
   <footer>Project page &mdash; contents will be updated upon publication.</footer>
 </div>
+
 </body>
 </html>
