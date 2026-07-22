@@ -121,18 +121,18 @@
 
 <div class="wrap">
 
-  <figure class="sheet" style="margin-top:12px">
-    <div class="mat"><img src="assets/task.jpg" alt="Task: single exterior photograph to complete multi-storey building"></div>
-    <figcaption>One exterior photograph in &mdash; a complete multi-storey building out: exterior, interior,
-    and explicit component-level geometry, every architectural element separable and semantically labeled.</figcaption>
-  </figure>
-
-  <div class="tldr">
+  <div class="tldr" style="margin-top:12px">
     <span class="lbl">TL;DR</span>
     <p>We propose a <b>data-free agentic framework</b> that generates complete, multi-floor 3D
     buildings with decomposable components from a single exterior image by enforcing and verifying
     architectural rules in heterogeneous formats.</p>
   </div>
+
+  <figure class="sheet">
+    <div class="mat"><img src="assets/task.jpg" alt="Task: single exterior photograph to complete multi-storey building"></div>
+    <figcaption>One exterior photograph in &mdash; a complete multi-storey building out: exterior, interior,
+    and explicit component-level geometry, every architectural element separable and semantically labeled.</figcaption>
+  </figure>
 
   <section>
     <div class="secno">01</div>
@@ -167,12 +167,6 @@
       <figcaption>Photo-locked envelope recovery &rarr; rule-governed per-floor layout reasoning with
       stair-consistent vertical coupling &rarr; procedural lifting into a decomposable 3D structure.</figcaption>
     </figure>
-    <figure class="sheet">
-      <div class="mat"><img src="assets/design_rules.jpg" alt="Design rule hierarchy"></div>
-      <figcaption>Atomic architectural rules in natural language &mdash; from encoding validity and geometric
-      predicates to measured thresholds and semantic design heuristics &mdash; one source of truth for
-      generation, judging, and repair.</figcaption>
-    </figure>
   </section>
 
   <section>
@@ -191,11 +185,6 @@
     <div class="secno">04</div>
     <h2>Results</h2>
     <figure class="sheet">
-      <div class="mat"><img src="assets/ablation.jpg" alt="Ablation results"></div>
-      <figcaption>Judge, repair, and fix stages each contribute: the full loop delivers rule-compliant
-      buildings where generation-only and partial variants leave violations behind.</figcaption>
-    </figure>
-    <figure class="sheet">
       <div class="mat"><img src="assets/diversity_sfh6.jpg" alt="Diverse building generations for one house"></div>
       <figcaption>Diverse generations for a single input &mdash; from one exterior photograph our method
       produces varied yet consistent multi-floor buildings with distinct interior layouts.</figcaption>
@@ -204,6 +193,17 @@
       <div class="mat gallery"><img src="assets/results_compare.jpg" alt="Qualitative comparison against baselines"></div>
       <figcaption>Qualitative comparison against baselines across houses (scroll to browse) &mdash;
       ours yields watertight, component-wise buildings with plausible multi-floor interiors.</figcaption>
+    </figure>
+    <figure class="sheet">
+      <div class="mat"><img src="assets/ablation.jpg" alt="Ablation results"></div>
+      <figcaption>Judge, repair, and fix stages each contribute: the full loop delivers rule-compliant
+      buildings where generation-only and partial variants leave violations behind.</figcaption>
+    </figure>
+    <figure class="sheet">
+      <div class="mat"><img src="assets/design_rules.jpg" alt="Design rule hierarchy"></div>
+      <figcaption>Atomic architectural rules in natural language &mdash; from encoding validity and geometric
+      predicates to measured thresholds and semantic design heuristics &mdash; one source of truth for
+      generation, judging, and repair.</figcaption>
     </figure>
   </section>
 
