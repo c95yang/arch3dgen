@@ -93,6 +93,12 @@
   .study a.btn:hover { transform: translateY(-2px); }
   .study .fine { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-top: 16px; }
 
+  .tldr { margin-top: 34px; display: flex; gap: 16px; align-items: flex-start;
+          background: linear-gradient(160deg, rgba(216,180,106,.12), rgba(216,180,106,.03));
+          border: 1px solid rgba(216,180,106,.4); border-radius: 14px; padding: 20px 24px; }
+  .tldr .lbl { flex: none; font-family: var(--sans); font-weight: 800; font-size: 13px;
+               letter-spacing: .08em; color: var(--brass); margin-top: 3px; }
+  .tldr p { margin: 0; font-size: 16.5px; line-height: 1.7; color: var(--ink); }
   pre { background: #070b17; color: #c7d5f2; border: 1px solid var(--line); border-radius: 12px;
         padding: 20px 22px; font-size: 13px; overflow-x: auto;
         font-family: ui-monospace, "SF Mono", Menlo, monospace; line-height: 1.6; }
@@ -121,27 +127,36 @@
     and explicit component-level geometry, every architectural element separable and semantically labeled.</figcaption>
   </figure>
 
+  <div class="tldr">
+    <span class="lbl">TL;DR</span>
+    <p>We propose a <b>data-free agentic framework</b> that generates complete, multi-floor 3D
+    buildings with decomposable components from a single exterior image by enforcing and verifying
+    architectural rules in heterogeneous formats.</p>
+  </div>
+
   <section>
     <div class="secno">01</div>
     <h2>Abstract</h2>
-    <p>Despite recent advances in 3D generation from a single image, buildings remain largely
-    unaddressed — especially multi-floor ones. Such data are challenging to model, difficult to
-    acquire, and therefore scarce. Existing 3D building generation methods produce monolithic,
-    hollow meshes or focus on internal decoration, often lacking internal structural awareness —
-    a gap that makes the generated assets practically unusable for downstream applications such as
-    physical simulation and digital twins.</p>
-    <p>We address the open problem of generating a complete 3D building with exterior, interior,
-    and explicit component-level geometry from a single 2D exterior image and a set of
-    architectural rules. To cope with the lack of training data, we propose a <b>data-free agentic
-    framework</b> powered by general vision-language foundation models. Our key insight: buildings,
-    as part of the human-built environment, are inherently governed by <b>symbolic rules and
-    regulations expressed in natural language</b>, which seamlessly complement the visual cues of
-    the input image. Taking image and rules as dual guidance, our approach iteratively reasons out
-    2D floor layouts, enforces symbolic verification of topological and human-centric architectural
-    rules, and lifts them into a 3D structure with correct vertical topology.</p>
-    <p>On single-family houses — where cross-floor topological alignment is a hard requirement yet
-    easily verifiable — extensive experiments demonstrate superior 2D layout rationality and 3D
-    geometric quality, opening up unprecedented consistency and semantic editability.</p>
+    <p>Despite recent advances in single-image 3D generation, buildings remain largely unaddressed,
+    especially multi-floor ones. Such data are tedious to model, inconsistent in formats and levels
+    of detail, and difficult to acquire at scale, rendering them scarce. At present, 3D building
+    generation methods produce monolithic, hollow meshes or focus solely on internal decorations
+    (e.g., furniture), often lacking internal structural awareness. Such a gap makes the generated
+    assets unusable for downstream applications, such as physical simulations and digital twins.</p>
+    <p>In this paper, we address the open problem of generating complete 3D buildings with exterior,
+    interior, and explicit component-level geometry from a single exterior image and architectural
+    rules in heterogeneous formats. To deal with the lack of training data, we propose a
+    <b>data-free agentic framework</b> powered by general vision-language foundation models. Our key
+    insight is that buildings, as part of the human-built environment, are inherently governed by
+    <b>explicit architectural rules</b> that naturally complement visual cues from the input image.
+    Driven by this <b>image–rule dual guidance</b>, our approach iteratively reasons out 2D floor
+    layouts, enforces symbolic verification for topological constraints alongside semantic
+    evaluation for human-centric rules, and lifts them into a 3D structure with correct vertical
+    topology.</p>
+    <p>We validate our approach on single-family houses, an ideal testbed that requires strict
+    cross-floor topological alignment while allowing tractable and fine-grained evaluation.
+    Extensive experiments demonstrate that our method achieves superior 2D layout rationality and
+    3D geometric quality, unlocking unprecedented consistency and semantic editability.</p>
   </section>
 
   <section>
