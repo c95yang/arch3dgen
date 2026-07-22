@@ -72,6 +72,8 @@
            box-shadow: 0 18px 50px rgba(0,0,0,.45); padding: 16px; }
   .sheet .mat { background: #fff; border-radius: 8px; padding: 10px; }
   .sheet img { width: 100%; display: block; border-radius: 4px; }
+  .sheet .mat.gallery { max-height: 80vh; overflow: auto; padding: 8px; }
+  .sheet .mat.gallery img { border-radius: 2px; }
   figcaption { font-family: var(--sans); font-size: 13px; color: var(--muted);
                margin: 13px 8px 2px; text-align: center; line-height: 1.55; }
   figure { margin: 28px 0 0; }
@@ -177,6 +179,16 @@
       <div class="mat"><img src="assets/ablation.jpg" alt="Ablation results"></div>
       <figcaption>Judge, repair, and fix stages each contribute: the full loop delivers rule-compliant
       buildings where generation-only and partial variants leave violations behind.</figcaption>
+    </figure>
+    <figure class="sheet">
+      <div class="mat"><img src="assets/diversity_sfh6.jpg" alt="Diverse building generations for one house"></div>
+      <figcaption>Diverse generations for a single input &mdash; from one exterior photograph our method
+      produces varied yet consistent multi-floor buildings with distinct interior layouts.</figcaption>
+    </figure>
+    <figure class="sheet">
+      <div class="mat gallery"><img src="assets/results_compare.jpg" alt="Qualitative comparison against baselines"></div>
+      <figcaption>Qualitative comparison against baselines across houses (scroll to browse) &mdash;
+      ours yields watertight, component-wise buildings with plausible multi-floor interiors.</figcaption>
     </figure>
   </section>
 
