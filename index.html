@@ -6,172 +6,180 @@
 <title>Architectural-Compliant 3D Building Generation with Compositional Geometry from Single-Image</title>
 <style>
   :root {
-    --ink: #17202b; --muted: #5b6676; --line: #e3e7ee;
-    --accent: #2c5fd8; --accent-2: #1c8a5e;
+    --bg: #0b1020;            /* deep blueprint night */
+    --bg-2: #0e1530;
+    --panel: #121a36;
+    --line: rgba(154,183,255,.14);
+    --ink: #e8edf9;
+    --muted: #93a0bd;
+    --brass: #d8b46a;         /* architectural brass accent */
+    --blue: #7ea2ff;
     --serif: "Charter", "Iowan Old Style", Georgia, "Times New Roman", serif;
     --sans: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { margin: 0; font-family: var(--serif); color: var(--ink); background: #fbfbfd; }
-
-  /* ---------- hero: blueprint theme ---------- */
-  .hero {
-    position: relative; color: #eef2fa; overflow: hidden;
+  body {
+    margin: 0; font-family: var(--serif); color: var(--ink);
     background:
-      repeating-linear-gradient(0deg,  rgba(255,255,255,.05) 0 1px, transparent 1px 48px),
-      repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 48px),
-      repeating-linear-gradient(0deg,  rgba(255,255,255,.025) 0 1px, transparent 1px 12px),
-      repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0 1px, transparent 1px 12px),
-      radial-gradient(120% 140% at 20% -20%, #274b9f 0%, #16295c 45%, #0d1733 100%);
-    padding: 84px 24px 64px;
+      repeating-linear-gradient(0deg,  rgba(126,162,255,.045) 0 1px, transparent 1px 96px),
+      repeating-linear-gradient(90deg, rgba(126,162,255,.045) 0 1px, transparent 1px 96px),
+      repeating-linear-gradient(0deg,  rgba(126,162,255,.02) 0 1px, transparent 1px 24px),
+      repeating-linear-gradient(90deg, rgba(126,162,255,.02) 0 1px, transparent 1px 24px),
+      radial-gradient(140% 90% at 50% -10%, var(--bg-2) 0%, var(--bg) 60%);
+    background-attachment: fixed;
   }
-  .hero .inner { max-width: 940px; margin: 0 auto; text-align: center; }
-  .kicker { font-family: var(--sans); font-size: 13px; letter-spacing: .22em; text-transform: uppercase;
-            color: #9db8f5; margin-bottom: 22px; }
-  h1 { font-size: clamp(26px, 4vw, 40px); line-height: 1.28; margin: 0 auto 14px; max-width: 880px;
-       font-weight: 600; letter-spacing: .01em; }
-  .authors { font-family: var(--sans); color: #b9c6e4; font-size: 15px; margin-bottom: 34px; }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 96px 24px 56px; text-align: center; position: relative; }
+  .hero::after {  /* skyline silhouette line-art */
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 120px; pointer-events: none;
+    background-repeat: repeat-x; background-position: bottom center; opacity: .5;
+    background-size: 560px 120px;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='560' height='120'><g fill='none' stroke='%237ea2ff' stroke-opacity='.35' stroke-width='1.2'><path d='M0 118 h560'/><path d='M20 118 V70 h44 v48'/><path d='M30 70 l12 -18 l22 18'/><rect x='30' y='84' width='10' height='12'/><rect x='46' y='84' width='10' height='12'/><path d='M92 118 V54 h36 v64'/><path d='M92 54 l18 -14 l18 14'/><rect x='100' y='66' width='8' height='10'/><rect x='114' y='66' width='8' height='10'/><rect x='100' y='88' width='8' height='10'/><rect x='114' y='88' width='8' height='10'/><path d='M156 118 V80 h52 v38'/><path d='M156 80 l26 -22 l26 22'/><rect x='166' y='92' width='12' height='26'/><rect x='186' y='92' width='12' height='12'/><path d='M236 118 V44 h30 v74'/><path d='M236 60 h30 M236 76 h30 M236 92 h30'/><path d='M294 118 V88 h46 v30'/><path d='M294 88 l23 -16 l23 16'/><rect x='306' y='98' width='9' height='20'/><rect x='322' y='98' width='9' height='11'/><path d='M368 118 V62 h40 v56'/><path d='M368 62 l20 -16 l20 16'/><rect x='377' y='74' width='9' height='11'/><rect x='391' y='74' width='9' height='11'/><rect x='377' y='94' width='9' height='11'/><rect x='391' y='94' width='9' height='11'/><path d='M436 118 V84 h54 v34'/><path d='M436 84 l27 -20 l27 20'/><rect x='448' y='94' width='12' height='24'/><rect x='468' y='94' width='12' height='12'/><path d='M516 118 V58 h28 v60'/><path d='M516 72 h28 M516 88 h28 M516 104 h28'/></g></svg>");
+  }
+  .kicker { font-family: var(--sans); font-size: 12.5px; letter-spacing: .28em; text-transform: uppercase;
+            color: var(--brass); margin-bottom: 26px; }
+  h1 { font-size: clamp(26px, 4vw, 42px); line-height: 1.26; margin: 0 auto 16px; max-width: 900px;
+       font-weight: 600; }
+  h1 .thin { color: var(--blue); }
+  .authors { font-family: var(--sans); color: var(--muted); font-size: 15px; margin-bottom: 36px; }
   .badges { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; font-family: var(--sans); }
   .badges a, .badges span {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 22px; border-radius: 999px; font-size: 14.5px; text-decoration: none;
-    border: 1.5px solid rgba(255,255,255,.55); color: #eef2fa; transition: all .15s ease;
+    display: inline-flex; align-items: center; gap: 8px; padding: 11px 24px; border-radius: 999px;
+    font-size: 14.5px; text-decoration: none; border: 1px solid rgba(154,183,255,.35);
+    color: var(--ink); transition: all .16s ease; background: rgba(18,26,54,.6);
   }
-  .badges a:hover { background: rgba(255,255,255,.12); transform: translateY(-1px); }
-  .badges .soon { opacity: .45; border-style: dashed; cursor: default; }
-  .badges .cta { background: var(--accent-2); border-color: var(--accent-2); font-weight: 600; }
-  .badges .cta:hover { background: #22a06f; border-color: #22a06f; }
+  .badges a:hover { border-color: var(--blue); transform: translateY(-1px); }
+  .badges .soon { opacity: .4; border-style: dashed; cursor: default; }
+  .badges .cta { background: var(--brass); border-color: var(--brass); color: #16130a; font-weight: 700; }
+  .badges .cta:hover { background: #e7c67e; border-color: #e7c67e; }
 
-  /* teaser overlapping the hero bottom */
-  .teaser { max-width: 940px; margin: -34px auto 0; padding: 0 24px; position: relative; z-index: 2; }
-  .teaser .card { margin-top: 60px; }
+  /* ---------- layout ---------- */
+  .wrap { max-width: 960px; margin: 0 auto; padding: 30px 24px 100px; }
+  section { margin-top: 72px; }
+  .secno { font-family: var(--sans); font-size: 12px; letter-spacing: .3em; color: var(--brass);
+           text-transform: uppercase; }
+  h2 { font-size: 25px; margin: 6px 0 20px; font-weight: 600; }
+  h2::after { content: ""; display: block; width: 64px; height: 2px; margin-top: 12px;
+              background: linear-gradient(90deg, var(--brass), transparent); }
+  p { font-size: 17px; line-height: 1.78; color: #c7d0e4; margin: 0 0 16px; }
 
-  /* ---------- body ---------- */
-  .wrap { max-width: 940px; margin: 0 auto; padding: 24px 24px 90px; }
-  section { margin-top: 58px; }
-  h2 { font-size: 24px; margin: 0 0 18px; font-weight: 600; }
-  h2::after { content: ""; display: block; width: 56px; height: 3px; margin-top: 10px;
-              background: linear-gradient(90deg, var(--accent), transparent); border-radius: 2px; }
-  p { font-size: 17px; line-height: 1.72; color: #2a3442; margin: 0 0 16px; }
-  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px;
-          box-shadow: 0 10px 30px rgba(23,32,43,.07); padding: 14px; }
-  .card img { width: 100%; display: block; border-radius: 8px; }
-  figcaption { font-family: var(--sans); font-size: 13.5px; color: var(--muted);
-               margin: 12px 6px 4px; text-align: center; line-height: 1.5; }
-  figure { margin: 26px 0 0; }
-
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+  .sheet { background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+           box-shadow: 0 18px 50px rgba(0,0,0,.45); padding: 16px; }
+  .sheet .mat { background: #fff; border-radius: 8px; padding: 10px; }
+  .sheet img { width: 100%; display: block; border-radius: 4px; }
+  figcaption { font-family: var(--sans); font-size: 13px; color: var(--muted);
+               margin: 13px 8px 2px; text-align: center; line-height: 1.55; }
+  figure { margin: 28px 0 0; }
 
   ul.hl { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
-  ul.hl li { background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--accent);
-             border-radius: 10px; padding: 14px 18px; font-size: 16px; line-height: 1.6; color: #2a3442; }
+  ul.hl li { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--brass);
+             border-radius: 10px; padding: 15px 20px; font-size: 16px; line-height: 1.65; color: #c7d0e4; }
   ul.hl b { color: var(--ink); }
 
-  .study {
-    margin-top: 64px; border-radius: 16px; padding: 38px 34px; color: #f2f7f3; text-align: center;
-    background:
-      repeating-linear-gradient(0deg,  rgba(255,255,255,.04) 0 1px, transparent 1px 36px),
-      repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0 1px, transparent 1px 36px),
-      linear-gradient(135deg, #14563b 0%, #0e3d2a 100%);
-  }
-  .study h2 { color: #fff; }
-  .study h2::after { background: linear-gradient(90deg, #7fd4ab, transparent); }
-  .study p { color: #cfe7d9; }
-  .study a.btn { display: inline-block; margin-top: 10px; font-family: var(--sans); font-weight: 600;
-      background: #fff; color: #14563b; padding: 13px 34px; border-radius: 999px; text-decoration: none;
-      font-size: 16px; transition: transform .15s ease; }
+  .study { margin-top: 76px; border: 1px solid rgba(216,180,106,.4); border-radius: 16px;
+           padding: 42px 36px; text-align: center;
+           background: linear-gradient(160deg, rgba(216,180,106,.10), rgba(216,180,106,.03)); }
+  .study h2 { color: var(--ink); }
+  .study a.btn { display: inline-block; margin-top: 12px; font-family: var(--sans); font-weight: 700;
+      background: var(--brass); color: #16130a; padding: 14px 38px; border-radius: 999px;
+      text-decoration: none; font-size: 16px; transition: transform .15s ease; }
   .study a.btn:hover { transform: translateY(-2px); }
-  .study .fine { font-size: 13px; color: #9cc4ad; margin-top: 14px; }
+  .study .fine { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-top: 16px; }
 
-  pre { background: #10192b; color: #d6e1f5; border-radius: 12px; padding: 20px 22px;
-        font-size: 13px; overflow-x: auto; font-family: ui-monospace, "SF Mono", Menlo, monospace;
-        line-height: 1.6; }
-  footer { margin-top: 70px; text-align: center; font-family: var(--sans); font-size: 13px; color: #98a2b3; }
+  pre { background: #070b17; color: #c7d5f2; border: 1px solid var(--line); border-radius: 12px;
+        padding: 20px 22px; font-size: 13px; overflow-x: auto;
+        font-family: ui-monospace, "SF Mono", Menlo, monospace; line-height: 1.6; }
+  footer { margin-top: 80px; text-align: center; font-family: var(--sans); font-size: 13px; color: #5c688a; }
 </style>
 </head>
 <body>
 
 <div class="hero">
-  <div class="inner">
-    <div class="kicker">Research Project</div>
-    <h1>Architectural-Compliant 3D Building Generation with Compositional Geometry from Single-Image</h1>
-    <div class="authors">Anonymous authors &middot; paper under review</div>
-    <div class="badges">
-      <span class="soon">&#128196; Paper (soon)</span>
-      <span class="soon">&#128187; Code (soon)</span>
-      <span class="soon">&#128230; Data (soon)</span>
-      <a class="cta" href="http://92.5.116.103/" target="_blank" rel="noopener">&#9998; Participate in our Human Study</a>
-    </div>
+  <div class="kicker">Research Project &middot; Under Review</div>
+  <h1>Architectural-Compliant 3D Building Generation<br>
+      <span class="thin">with Compositional Geometry from Single-Image</span></h1>
+  <div class="authors">Anonymous authors</div>
+  <div class="badges">
+    <span class="soon">&#128196; Paper (soon)</span>
+    <span class="soon">&#128187; Code (soon)</span>
+    <span class="soon">&#128230; Data (soon)</span>
+    <a class="cta" href="http://92.5.116.103/" target="_blank" rel="noopener">&#9998; Join the Human Study</a>
   </div>
-</div>
-
-<div class="teaser">
-  <figure class="card" style="margin-top:-10px">
-    <img src="assets/task.jpg" alt="Task: single exterior photograph to complete multi-storey building">
-    <figcaption>One exterior photograph in &mdash; a complete multi-storey building out: envelope, roof, and
-    unseen interior layouts, every architectural element a separable, semantically labeled mesh component.</figcaption>
-  </figure>
 </div>
 
 <div class="wrap">
 
+  <figure class="sheet" style="margin-top:12px">
+    <div class="mat"><img src="assets/task.jpg" alt="Task: single exterior photograph to complete multi-storey building"></div>
+    <figcaption>One exterior photograph in &mdash; a complete multi-storey building out: exterior, interior,
+    and explicit component-level geometry, every architectural element separable and semantically labeled.</figcaption>
+  </figure>
+
   <section>
+    <div class="secno">01</div>
     <h2>Abstract</h2>
-    <p>We present an agentic pipeline that generates a complete multi-storey residential building —
-    envelope, roof, and unseen interior layouts — from a single exterior photograph, with every
-    architectural element emitted as a cleanly separable, semantically labeled mesh component.
-    Existing approaches fall short of this goal: procedural systems demand manual encoding of every
-    design rule and produce over-simplified interiors; learned generative models offer no validity
-    guarantees; and the multi-floor setting, where staircases and structural walls couple floors
-    vertically, remains largely unexplored.</p>
-    <p>Our key insight is twofold. First, architectural knowledge is native to 2D: we adopt the
-    vector floor plan as the intermediate representation in which design rules can be stated,
-    checked, and repaired, and from which 3D geometry follows procedurally, making the output
-    decomposable by construction. Second, we organize heterogeneous architectural constraints —
-    from verifiable geometric predicates to fuzzy design heuristics — into a four-level hierarchy
-    of atomic natural-language rules that serve as a single source of truth for both generation and
-    verification. A Generate&ndash;Judge&ndash;Repair&ndash;Fix loop enforces these rules at every
-    pipeline stage, combining programmatic validators, deterministic repairs, and vision-language judging.</p>
+    <p>Despite recent advances in 3D generation from a single image, buildings remain largely
+    unaddressed — especially multi-floor ones. Such data are challenging to model, difficult to
+    acquire, and therefore scarce. Existing 3D building generation methods produce monolithic,
+    hollow meshes or focus on internal decoration, often lacking internal structural awareness —
+    a gap that makes the generated assets practically unusable for downstream applications such as
+    physical simulation and digital twins.</p>
+    <p>We address the open problem of generating a complete 3D building with exterior, interior,
+    and explicit component-level geometry from a single 2D exterior image and a set of
+    architectural rules. To cope with the lack of training data, we propose a <b>data-free agentic
+    framework</b> powered by general vision-language foundation models. Our key insight: buildings,
+    as part of the human-built environment, are inherently governed by <b>symbolic rules and
+    regulations expressed in natural language</b>, which seamlessly complement the visual cues of
+    the input image. Taking image and rules as dual guidance, our approach iteratively reasons out
+    2D floor layouts, enforces symbolic verification of topological and human-centric architectural
+    rules, and lifts them into a 3D structure with correct vertical topology.</p>
+    <p>On single-family houses — where cross-floor topological alignment is a hard requirement yet
+    easily verifiable — extensive experiments demonstrate superior 2D layout rationality and 3D
+    geometric quality, opening up unprecedented consistency and semantic editability.</p>
   </section>
 
   <section>
+    <div class="secno">02</div>
     <h2>Method</h2>
-    <figure class="card">
-      <img src="assets/pipeline.jpg" alt="Pipeline overview">
-      <figcaption>Photo-locked envelope recovery &rarr; rule-governed per-floor interior synthesis with
-      stair-consistent vertical coupling &rarr; procedural extrusion into a decomposable 3D mesh.</figcaption>
+    <figure class="sheet">
+      <div class="mat"><img src="assets/pipeline.jpg" alt="Pipeline overview"></div>
+      <figcaption>Photo-locked envelope recovery &rarr; rule-governed per-floor layout reasoning with
+      stair-consistent vertical coupling &rarr; procedural lifting into a decomposable 3D structure.</figcaption>
     </figure>
-    <figure class="card">
-      <img src="assets/design_rules.jpg" alt="Design rule hierarchy">
-      <figcaption>81 atomic architectural rules in a four-level hierarchy &mdash; encoding validity, geometric
-      predicates, measured thresholds, and semantic design heuristics &mdash; each a single natural-language
-      statement shared by generation, judging, and repair.</figcaption>
+    <figure class="sheet">
+      <div class="mat"><img src="assets/design_rules.jpg" alt="Design rule hierarchy"></div>
+      <figcaption>Atomic architectural rules in natural language &mdash; from encoding validity and geometric
+      predicates to measured thresholds and semantic design heuristics &mdash; one source of truth for
+      generation, judging, and repair.</figcaption>
     </figure>
   </section>
 
   <section>
+    <div class="secno">03</div>
     <h2>Highlights</h2>
     <ul class="hl">
-      <li><b>Single photo in, full building out</b> &mdash; multi-storey envelope, roof, and interiors, all floors stair-consistent.</li>
-      <li><b>Compositional geometry</b> &mdash; walls, openings, stairs, roof, and room volumes as separate, labeled mesh components.</li>
-      <li><b>Rules as a single source of truth</b> &mdash; the same natural-language rule drives generation, verification, and repair.</li>
-      <li><b>Generate&ndash;Judge&ndash;Repair&ndash;Fix</b> &mdash; programmatic validators and VLM judges gate every stage of the pipeline.</li>
-      <li><b>Comprehensive evaluation</b> &mdash; procedural (Infinigen-Indoors), learned 2D (GSDiff), and direct LLM baselines, plus an architect / non-architect human study.</li>
+      <li><b>Single image + rules in, full building out</b> &mdash; exterior, interior, and component-level geometry with correct vertical topology.</li>
+      <li><b>Data-free</b> &mdash; an agentic framework on general vision-language foundation models; no 3D building dataset required.</li>
+      <li><b>Symbolic rule verification</b> &mdash; topological and human-centric architectural rules checked and enforced throughout the loop.</li>
+      <li><b>Compositional geometry</b> &mdash; walls, openings, stairs, roof, and room volumes as separable, semantically labeled components, ready for simulation and digital twins.</li>
+      <li><b>Evaluated broadly</b> &mdash; procedural (Infinigen-Indoors), learned 2D (GSDiff), and direct LLM baselines, plus an architect / non-architect human study.</li>
     </ul>
   </section>
 
   <section>
+    <div class="secno">04</div>
     <h2>Results</h2>
-    <figure class="card">
-      <img src="assets/ablation.jpg" alt="Ablation results">
-      <figcaption>Judge, repair, and fix stages each contribute: the full loop delivers clean rule-compliant
+    <figure class="sheet">
+      <div class="mat"><img src="assets/ablation.jpg" alt="Ablation results"></div>
+      <figcaption>Judge, repair, and fix stages each contribute: the full loop delivers rule-compliant
       buildings where generation-only and partial variants leave violations behind.</figcaption>
     </figure>
   </section>
 
   <div class="study">
+    <div class="secno">Participate</div>
     <h2>Help our research &mdash; join the human study</h2>
     <p>Compare pairs of AI-generated house designs (floor plans and interactive 3D models) and pick
     the better one. Anonymous, about 15 minutes, desktop browser recommended.</p>
@@ -180,6 +188,7 @@
   </div>
 
   <section>
+    <div class="secno">05</div>
     <h2>BibTeX</h2>
     <pre>@article{anonymous2026architectural,
   title   = {Architectural-Compliant 3D Building Generation with Compositional Geometry from Single-Image},
